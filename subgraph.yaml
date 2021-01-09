@@ -21,4 +21,6 @@ dataSources:
       eventHandlers:
         - event: newCampaign(indexed address,bytes32,uint256)
           handler: handlenewCampaign
+        - event: newCampaignDonation(indexed address,indexed address,uint256)
+          handler: handlenewCampaignDonation
       file: ./src/mapping.ts

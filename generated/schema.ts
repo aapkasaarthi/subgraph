@@ -59,6 +59,33 @@ export class CampaignHistoryItem extends Entity {
   set createdAt(value: BigInt) {
     this.set("createdAt", Value.fromBigInt(value));
   }
+
+  get donationCount(): BigInt {
+    let value = this.get("donationCount");
+    return value.toBigInt();
+  }
+
+  set donationCount(value: BigInt) {
+    this.set("donationCount", Value.fromBigInt(value));
+  }
+
+  get amountReceived(): BigInt {
+    let value = this.get("amountReceived");
+    return value.toBigInt();
+  }
+
+  set amountReceived(value: BigInt) {
+    this.set("amountReceived", Value.fromBigInt(value));
+  }
+
+  get donatorAddresses(): Array<Bytes> {
+    let value = this.get("donatorAddresses");
+    return value.toBytesArray();
+  }
+
+  set donatorAddresses(value: Array<Bytes>) {
+    this.set("donatorAddresses", Value.fromBytesArray(value));
+  }
 }
 
 export class Campaign extends Entity {
@@ -109,23 +136,39 @@ export class Campaign extends Entity {
     this.set("campaignCount", Value.fromBigInt(value));
   }
 
-  get campaignHistory(): Array<string> | null {
-    let value = this.get("campaignHistory");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toStringArray();
-    }
+  get campaignEnabled(): boolean {
+    let value = this.get("campaignEnabled");
+    return value.toBoolean();
   }
 
-  set campaignHistory(value: Array<string> | null) {
-    if (value === null) {
-      this.unset("campaignHistory");
-    } else {
-      this.set(
-        "campaignHistory",
-        Value.fromStringArray(value as Array<string>)
-      );
-    }
+  set campaignEnabled(value: boolean) {
+    this.set("campaignEnabled", Value.fromBoolean(value));
+  }
+
+  get donationCount(): BigInt {
+    let value = this.get("donationCount");
+    return value.toBigInt();
+  }
+
+  set donationCount(value: BigInt) {
+    this.set("donationCount", Value.fromBigInt(value));
+  }
+
+  get amountReceived(): BigInt {
+    let value = this.get("amountReceived");
+    return value.toBigInt();
+  }
+
+  set amountReceived(value: BigInt) {
+    this.set("amountReceived", Value.fromBigInt(value));
+  }
+
+  get campaignHistory(): Array<string> {
+    let value = this.get("campaignHistory");
+    return value.toStringArray();
+  }
+
+  set campaignHistory(value: Array<string>) {
+    this.set("campaignHistory", Value.fromStringArray(value));
   }
 }

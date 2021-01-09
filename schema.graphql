@@ -2,11 +2,17 @@ type CampaignHistoryItem @entity {
   id: ID! # Txn hash
   campaignData: String! # string
   createdAt: BigInt! # uint256
+  donationCount: BigInt! # uint256
+  amountReceived: BigInt! # uint256
+  donatorAddresses: [Bytes!]! # addresses
 }
 
 type Campaign @entity {
   id: ID! # address
   campaigner: Bytes! # address
   campaignCount: BigInt! # uint256
-  campaignHistory: [CampaignHistoryItem!]
+  campaignEnabled: Boolean # boolean
+  donationCount: BigInt! # uint256
+  amountReceived: BigInt! # uint256
+  campaignHistory: [CampaignHistoryItem!]!
 }

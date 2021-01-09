@@ -1,4 +1,4 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+import { BigInt, Bytes } from "@graphprotocol/graph-ts"
 import { log } from '@graphprotocol/graph-ts'
 
 import {
@@ -19,6 +19,9 @@ export function handlenewCampaign(event: newCampaign): void {
   let campaignHistoryItem = new CampaignHistoryItem(event.transaction.hash.toHex())
   campaignHistoryItem.campaignData = event.params._campaignData.toString()
   campaignHistoryItem.createdAt = event.block.timestamp
+  campaignHistoryItem.amountReceived = BigInt.fromI32(0)
+  campaignHistoryItem.donationCount = BigInt.fromI32(0)
+  campaignHistoryItem.donatorAddresses = new Array<Bytes>()
 
   let campaign = Campaign.load(event.transaction.from.toHexString())
 
@@ -26,14 +29,38 @@ export function handlenewCampaign(event: newCampaign): void {
     campaign = new Campaign(event.transaction.from.toHexString())
     campaign.campaigner = event.transaction.from
     campaign.campaignCount = BigInt.fromI32(0)
-    campaign.campaignHistory = new Array<string>();
+    campaign.amountReceived = BigInt.fromI32(0)
+    campaign.donationCount = BigInt.fromI32(0)
+    campaign.campaignHistory = new Array<string>()
   }
 
-  campaign.campaignHistory.push(campaignHistoryItem.id)
+  let campaignHistory = campaign.campaignHistory
+  campaignHistory.push(campaignHistoryItem.id)
+  campaign.campaignHistory = campaignHistory
   campaign.campaignCount = campaign.campaignCount.plus(BigInt.fromI32(1))
 
   campaign.save()
   campaignHistoryItem.save()
+}
+
+export function handlenewCampaignDonation(event: newCampaignDonation): void {
+  let campaign = Campaign.load(event.params._campaigner.toHexString())
+  let campaignHistory = campaign.campaignHistory
+  let campaignHistoryID = campaignHistory[ campaignHistory.length == 0 ? 0 : campaignHistory.length - 1]
+  let campaignHistoryItem = CampaignHistoryItem.load(campaignHistoryID)
+
+  campaignHistoryItem.amountReceived = campaignHistoryItem.amountReceived.plus(event.transaction.value)
+  campaignHistoryItem.donationCount = campaignHistoryItem.donationCount.plus(BigInt.fromI32(1))
+  let donatorAddresses = campaignHistoryItem.donatorAddresses
+  donatorAddresses.push(event.transaction.from)
+  campaignHistoryItem.donatorAddresses = donatorAddresses
+
+
+  campaign.donationCount = campaign.amountReceived.plus(event.transaction.value)
+  campaign.amountReceived = campaign.amountReceived.plus(BigInt.fromI32(1))
+
+  campaignHistoryItem.save()
+  campaign.save()
 }
 
 
