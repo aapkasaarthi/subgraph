@@ -12,16 +12,28 @@ import {
   newReport,
   newTaskCreated
 } from "../generated/Contract/Contract"
-import { Campaign } from "../generated/schema"
+import { Campaign, CampaignHistoryItem } from "../generated/schema"
 
 export function handlenewCampaign(event: newCampaign): void {
-  let campaign = new Campaign(event.transaction.hash.toHex())
-  campaign.campaigner = event.params._campaigner
-  campaign.campaignData = event.params._campaignData.toString()
-  campaign.createdAt = event.block.timestamp
-  campaign.save()
 
-  log.debug('!! this a log', [event.block.timestamp.toString(), event.block.hash.toHexString()]);
+  let campaignHistoryItem = new CampaignHistoryItem(event.transaction.hash.toHex())
+  campaignHistoryItem.campaignData = event.params._campaignData.toString()
+  campaignHistoryItem.createdAt = event.block.timestamp
+
+  let campaign = Campaign.load(event.transaction.from.toHexString())
+
+  if (campaign == null) {
+    campaign = new Campaign(event.transaction.from.toHexString())
+    campaign.campaigner = event.transaction.from
+    campaign.campaignCount = BigInt.fromI32(0)
+    campaign.campaignHistory = new Array<string>();
+  }
+
+  campaign.campaignHistory.push(campaignHistoryItem.id)
+  campaign.campaignCount = campaign.campaignCount.plus(BigInt.fromI32(1))
+
+  campaign.save()
+  campaignHistoryItem.save()
 }
 
 

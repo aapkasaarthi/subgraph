@@ -1,6 +1,12 @@
-type Campaign @entity {
-  id: ID!
-  campaigner: Bytes!
-  campaignData: String!
+type CampaignHistoryItem @entity {
+  id: ID! # Txn hash
+  campaignData: String! # string
   createdAt: BigInt! # uint256
+}
+
+type Campaign @entity {
+  id: ID! # address
+  campaigner: Bytes! # address
+  campaignCount: BigInt! # uint256
+  campaignHistory: [CampaignHistoryItem!]
 }

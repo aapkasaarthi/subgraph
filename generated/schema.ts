@@ -12,6 +12,55 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
+export class CampaignHistoryItem extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save CampaignHistoryItem entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save CampaignHistoryItem entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("CampaignHistoryItem", id.toString(), this);
+  }
+
+  static load(id: string): CampaignHistoryItem | null {
+    return store.get("CampaignHistoryItem", id) as CampaignHistoryItem | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get campaignData(): string {
+    let value = this.get("campaignData");
+    return value.toString();
+  }
+
+  set campaignData(value: string) {
+    this.set("campaignData", Value.fromString(value));
+  }
+
+  get createdAt(): BigInt {
+    let value = this.get("createdAt");
+    return value.toBigInt();
+  }
+
+  set createdAt(value: BigInt) {
+    this.set("createdAt", Value.fromBigInt(value));
+  }
+}
+
 export class Campaign extends Entity {
   constructor(id: string) {
     super();
@@ -51,21 +100,32 @@ export class Campaign extends Entity {
     this.set("campaigner", Value.fromBytes(value));
   }
 
-  get campaignData(): string {
-    let value = this.get("campaignData");
-    return value.toString();
-  }
-
-  set campaignData(value: string) {
-    this.set("campaignData", Value.fromString(value));
-  }
-
-  get createdAt(): BigInt {
-    let value = this.get("createdAt");
+  get campaignCount(): BigInt {
+    let value = this.get("campaignCount");
     return value.toBigInt();
   }
 
-  set createdAt(value: BigInt) {
-    this.set("createdAt", Value.fromBigInt(value));
+  set campaignCount(value: BigInt) {
+    this.set("campaignCount", Value.fromBigInt(value));
+  }
+
+  get campaignHistory(): Array<string> | null {
+    let value = this.get("campaignHistory");
+    if (value === null) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set campaignHistory(value: Array<string> | null) {
+    if (value === null) {
+      this.unset("campaignHistory");
+    } else {
+      this.set(
+        "campaignHistory",
+        Value.fromStringArray(value as Array<string>)
+      );
+    }
   }
 }
