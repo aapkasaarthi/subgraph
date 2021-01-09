@@ -1,4 +1,6 @@
 import { BigInt } from "@graphprotocol/graph-ts"
+import { log } from '@graphprotocol/graph-ts'
+
 import {
   Contract,
   modelUpdated,
@@ -10,31 +12,24 @@ import {
   newReport,
   newTaskCreated
 } from "../generated/Contract/Contract"
-import { ExampleEntity } from "../generated/schema"
+import { Campaign } from "../generated/schema"
 
-export function handlemodelUpdated(event: modelUpdated): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
+export function handlenewCampaign(event: newCampaign): void {
+  let campaign = new Campaign(event.transaction.hash.toHex())
+  campaign.campaigner = event.params._campaigner
+  campaign.campaignData = event.params._campaignData.toString()
+  campaign.createdAt = event.block.timestamp
+  campaign.save()
 
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
-  if (entity == null) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
+  log.debug('!! this a log', [event.block.timestamp.toString(), event.block.hash.toHexString()]);
+}
 
-    // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0)
-  }
 
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1)
 
-  // Entity fields can be set based on event parameters
-  entity.taskID = event.params.taskID
-  entity._modelHash = event.params._modelHash
+// export function handlemodelUpdated(event: modelUpdated): void {
 
   // Entities can be written to the store with `.save()`
-  entity.save()
+  // entity.save()
 
   // Note: If a handler doesn't require existing field values, it is faster
   // _not_ to load the entity from the store. Instead, create it fresh with
@@ -69,18 +64,18 @@ export function handlemodelUpdated(event: modelUpdated): void {
   // - contract.totalDonationAmount(...)
   // - contract.totalDonationCnt(...)
   // - contract.version(...)
-}
+// }
 
-export function handlenewApproval(event: newApproval): void {}
+// export function handlenewApproval(event: newApproval): void {}
 
-export function handlenewCampaign(event: newCampaign): void {}
+// export function handlenewCampaign(event: newCampaign): void {}
 
-export function handlenewCampaignDonation(event: newCampaignDonation): void {}
+// export function handlenewCampaignDonation(event: newCampaignDonation): void {}
 
-export function handlenewFund(event: newFund): void {}
+// export function handlenewFund(event: newFund): void {}
 
-export function handlenewFundDonation(event: newFundDonation): void {}
+// export function handlenewFundDonation(event: newFundDonation): void {}
 
-export function handlenewReport(event: newReport): void {}
+// export function handlenewReport(event: newReport): void {}
 
-export function handlenewTaskCreated(event: newTaskCreated): void {}
+// export function handle_newTaskCreated(event: newTaskCreated): void {}

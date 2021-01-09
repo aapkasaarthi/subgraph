@@ -12,7 +12,7 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class ExampleEntity extends Entity {
+export class Campaign extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -20,17 +20,17 @@ export class ExampleEntity extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save ExampleEntity entity without an ID");
+    assert(id !== null, "Cannot save Campaign entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save ExampleEntity entity with non-string ID. " +
+      "Cannot save Campaign entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("ExampleEntity", id.toString(), this);
+    store.set("Campaign", id.toString(), this);
   }
 
-  static load(id: string): ExampleEntity | null {
-    return store.get("ExampleEntity", id) as ExampleEntity | null;
+  static load(id: string): Campaign | null {
+    return store.get("Campaign", id) as Campaign | null;
   }
 
   get id(): string {
@@ -42,30 +42,30 @@ export class ExampleEntity extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get count(): BigInt {
-    let value = this.get("count");
-    return value.toBigInt();
-  }
-
-  set count(value: BigInt) {
-    this.set("count", Value.fromBigInt(value));
-  }
-
-  get taskID(): BigInt {
-    let value = this.get("taskID");
-    return value.toBigInt();
-  }
-
-  set taskID(value: BigInt) {
-    this.set("taskID", Value.fromBigInt(value));
-  }
-
-  get _modelHash(): Bytes {
-    let value = this.get("_modelHash");
+  get campaigner(): Bytes {
+    let value = this.get("campaigner");
     return value.toBytes();
   }
 
-  set _modelHash(value: Bytes) {
-    this.set("_modelHash", Value.fromBytes(value));
+  set campaigner(value: Bytes) {
+    this.set("campaigner", Value.fromBytes(value));
+  }
+
+  get campaignData(): string {
+    let value = this.get("campaignData");
+    return value.toString();
+  }
+
+  set campaignData(value: string) {
+    this.set("campaignData", Value.fromString(value));
+  }
+
+  get createdAt(): BigInt {
+    let value = this.get("createdAt");
+    return value.toBigInt();
+  }
+
+  set createdAt(value: BigInt) {
+    this.set("createdAt", Value.fromBigInt(value));
   }
 }

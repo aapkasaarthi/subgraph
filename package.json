@@ -1,9 +1,10 @@
 {
   "name": "saarthi",
-  "license": "UNLICENSED",
+  "license": "GPV v3",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
+    "test": "graph codegen && graph build",
     "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ anudit/saarthi",
     "create-local": "graph create --node http://localhost:8020/ anudit/saarthi",
     "remove-local": "graph remove --node http://localhost:8020/ anudit/saarthi",
@@ -11,7 +12,6 @@
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.18.0",
-    "@graphprotocol/graph-ts": "0.18.0",
-    "keytar": "^7.3.0"
+    "@graphprotocol/graph-ts": "0.18.0"
   }
 }

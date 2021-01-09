@@ -1,6 +1,6 @@
-type ExampleEntity @entity {
+type Campaign @entity {
   id: ID!
-  count: BigInt!
-  taskID: BigInt! # uint256
-  _modelHash: Bytes! # bytes32
+  campaigner: Bytes!
+  campaignData: String!
+  createdAt: BigInt! # uint256
 }
