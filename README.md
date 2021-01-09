@@ -6,12 +6,15 @@
 ### Endpoints
 ```
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/anudit/saarthi
+IPFS:               https://api.thegraph.com/subgraphs/id/QmRWeA27JUEVQY1ELDK1foxwcg1NDV1WLCxToATnZj2BP8
 Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/anudit/saarthi
 ```
 
 ### Sample Queries
+<br/>
 
 Get Campaign Data.
+
 ```
 {
     campaigns(first:1) {
@@ -60,3 +63,60 @@ Get Campaign Data.
 }
  </pre>
 </details>
+<br/>
+<br/>
+
+Get Funds Data.
+
+```
+{
+  funds(first:2 skip:1) {
+    id
+    paymentReceiver
+    fundIndex
+    createdOn
+    orgName
+    fundName
+    donationCount
+    amountReceived
+    donations {
+      id
+      createdOn
+      from
+      amount
+    }
+  }
+}
+```
+
+<details>
+ <summary>Response</summary>
+ <pre>
+{
+  "data": {
+    "funds": [
+      {
+        "amountReceived": "500000000000000000",
+        "createdOn": "1610208416",
+        "donationCount": "1",
+        "donations": [
+          {
+            "amount": "500000000000000000",
+            "createdOn": "1610208656",
+            "from": "0x707ac3937a9b31c225d8c240f5917be97cab9f20",
+            "id": "0xf3bc924274d0397d905086b87507a566b46d51ca2aa46198613ae842d66e2c8d"
+          }
+        ],
+        "fundIndex": "2",
+        "fundName": "Coronavirus Relief Fund",
+        "id": "0x2",
+        "orgName": "GlobalGiving",
+        "paymentReceiver": "0xbeb71662ff9c08afef3866f85a6591d4aebe6e4e"
+      }
+    ]
+  }
+}
+ </pre>
+</details>
+
+

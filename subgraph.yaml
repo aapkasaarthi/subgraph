@@ -15,6 +15,9 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - newCampaign
+        - newCampaignDonation
+        - newFund
+        - newFundDonation
       abis:
         - name: Contract
           file: ./abis/Contract.json
@@ -23,4 +26,8 @@ dataSources:
           handler: handlenewCampaign
         - event: newCampaignDonation(indexed address,indexed address,uint256)
           handler: handlenewCampaignDonation
+        - event: newFund(uint256,indexed bytes32,bytes32)
+          handler: handlenewFund
+        - event: newFundDonation(uint256,indexed address,indexed address,uint256)
+          handler: handlenewFundDonation
       file: ./src/mapping.ts

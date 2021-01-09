@@ -1,7 +1,7 @@
 type CampaignHistoryItem @entity {
   id: ID! # Txn hash
   campaignData: String! # string
-  createdAt: BigInt! # uint256
+  createdOn: BigInt! # uint256
   donationCount: BigInt! # uint256
   amountReceived: BigInt! # uint256
   donatorAddresses: [Bytes!]! # addresses
@@ -11,8 +11,26 @@ type Campaign @entity {
   id: ID! # address
   campaigner: Bytes! # address
   campaignCount: BigInt! # uint256
-  campaignEnabled: Boolean # boolean
+  campaignEnabled: Boolean # boolean TODO
   donationCount: BigInt! # uint256
   amountReceived: BigInt! # uint256
   campaignHistory: [CampaignHistoryItem!]!
+}
+type FundItem @entity {
+  id: ID!
+  createdOn: BigInt!
+  from: Bytes!
+  amount: BigInt!
+}
+
+type Fund @entity {
+  id: ID! # fundindex
+  paymentReceiver: Bytes! #address
+  fundIndex: BigInt!
+  createdOn: BigInt!
+  orgName: String!
+  fundName: String!
+  donationCount: BigInt! # uint256
+  amountReceived: BigInt! # uint256
+  donations: [FundItem!]! # addresses
 }

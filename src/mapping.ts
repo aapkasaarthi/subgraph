@@ -1,5 +1,4 @@
 import { BigInt, Bytes } from "@graphprotocol/graph-ts"
-import { log } from '@graphprotocol/graph-ts'
 
 import {
   Contract,
@@ -12,13 +11,13 @@ import {
   newReport,
   newTaskCreated
 } from "../generated/Contract/Contract"
-import { Campaign, CampaignHistoryItem } from "../generated/schema"
+import { Campaign, CampaignHistoryItem, Fund, FundItem} from "../generated/schema"
 
 export function handlenewCampaign(event: newCampaign): void {
 
   let campaignHistoryItem = new CampaignHistoryItem(event.transaction.hash.toHex())
   campaignHistoryItem.campaignData = event.params._campaignData.toString()
-  campaignHistoryItem.createdAt = event.block.timestamp
+  campaignHistoryItem.createdOn = event.block.timestamp
   campaignHistoryItem.amountReceived = BigInt.fromI32(0)
   campaignHistoryItem.donationCount = BigInt.fromI32(0)
   campaignHistoryItem.donatorAddresses = new Array<Bytes>()
@@ -56,14 +55,47 @@ export function handlenewCampaignDonation(event: newCampaignDonation): void {
   campaignHistoryItem.donatorAddresses = donatorAddresses
 
 
-  campaign.donationCount = campaign.amountReceived.plus(event.transaction.value)
-  campaign.amountReceived = campaign.amountReceived.plus(BigInt.fromI32(1))
+  campaign.donationCount = campaign.donationCount.plus(BigInt.fromI32(1))
+  campaign.amountReceived = campaign.amountReceived.plus(event.transaction.value)
 
   campaignHistoryItem.save()
   campaign.save()
 }
 
+export function handlenewFund(event: newFund): void {
 
+  let fund = new Fund(event.params._fundIndex.toHexString())
+  let contract = Contract.bind(event.address)
+  fund.paymentReceiver = contract.Funds(event.params._fundIndex)
+  fund.fundIndex = event.params._fundIndex
+  fund.createdOn = event.block.timestamp
+  fund.orgName = event.params._orgName.toString()
+  fund.fundName = event.params._fundName.toString()
+  fund.donationCount = BigInt.fromI32(0)
+  fund.amountReceived = BigInt.fromI32(0)
+  fund.donations = new Array<string>()
+
+  fund.save()
+
+}
+
+export function handlenewFundDonation(event: newFundDonation): void {
+
+  let fundItem = new FundItem(event.transaction.hash.toHex())
+  fundItem.createdOn = event.block.timestamp
+  fundItem.from = event.transaction.from
+  fundItem.amount = event.transaction.value
+
+  let fund = Fund.load(event.params._fundIndex.toHexString())
+  fund.donationCount = fund.donationCount.plus(BigInt.fromI32(1))
+  fund.amountReceived = fund.amountReceived.plus(event.params._amount)
+  let donations = fund.donations
+  donations.push(fundItem.id)
+  fund.donations = donations
+
+  fundItem.save()
+  fund.save()
+}
 
 // export function handlemodelUpdated(event: modelUpdated): void {
 

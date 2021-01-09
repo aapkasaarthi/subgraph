@@ -51,13 +51,13 @@ export class CampaignHistoryItem extends Entity {
     this.set("campaignData", Value.fromString(value));
   }
 
-  get createdAt(): BigInt {
-    let value = this.get("createdAt");
+  get createdOn(): BigInt {
+    let value = this.get("createdOn");
     return value.toBigInt();
   }
 
-  set createdAt(value: BigInt) {
-    this.set("createdAt", Value.fromBigInt(value));
+  set createdOn(value: BigInt) {
+    this.set("createdOn", Value.fromBigInt(value));
   }
 
   get donationCount(): BigInt {
@@ -170,5 +170,166 @@ export class Campaign extends Entity {
 
   set campaignHistory(value: Array<string>) {
     this.set("campaignHistory", Value.fromStringArray(value));
+  }
+}
+
+export class FundItem extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save FundItem entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save FundItem entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("FundItem", id.toString(), this);
+  }
+
+  static load(id: string): FundItem | null {
+    return store.get("FundItem", id) as FundItem | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get createdOn(): BigInt {
+    let value = this.get("createdOn");
+    return value.toBigInt();
+  }
+
+  set createdOn(value: BigInt) {
+    this.set("createdOn", Value.fromBigInt(value));
+  }
+
+  get from(): Bytes {
+    let value = this.get("from");
+    return value.toBytes();
+  }
+
+  set from(value: Bytes) {
+    this.set("from", Value.fromBytes(value));
+  }
+
+  get amount(): BigInt {
+    let value = this.get("amount");
+    return value.toBigInt();
+  }
+
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
+  }
+}
+
+export class Fund extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Fund entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Fund entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Fund", id.toString(), this);
+  }
+
+  static load(id: string): Fund | null {
+    return store.get("Fund", id) as Fund | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get paymentReceiver(): Bytes {
+    let value = this.get("paymentReceiver");
+    return value.toBytes();
+  }
+
+  set paymentReceiver(value: Bytes) {
+    this.set("paymentReceiver", Value.fromBytes(value));
+  }
+
+  get fundIndex(): BigInt {
+    let value = this.get("fundIndex");
+    return value.toBigInt();
+  }
+
+  set fundIndex(value: BigInt) {
+    this.set("fundIndex", Value.fromBigInt(value));
+  }
+
+  get createdOn(): BigInt {
+    let value = this.get("createdOn");
+    return value.toBigInt();
+  }
+
+  set createdOn(value: BigInt) {
+    this.set("createdOn", Value.fromBigInt(value));
+  }
+
+  get orgName(): string {
+    let value = this.get("orgName");
+    return value.toString();
+  }
+
+  set orgName(value: string) {
+    this.set("orgName", Value.fromString(value));
+  }
+
+  get fundName(): string {
+    let value = this.get("fundName");
+    return value.toString();
+  }
+
+  set fundName(value: string) {
+    this.set("fundName", Value.fromString(value));
+  }
+
+  get donationCount(): BigInt {
+    let value = this.get("donationCount");
+    return value.toBigInt();
+  }
+
+  set donationCount(value: BigInt) {
+    this.set("donationCount", Value.fromBigInt(value));
+  }
+
+  get amountReceived(): BigInt {
+    let value = this.get("amountReceived");
+    return value.toBigInt();
+  }
+
+  set amountReceived(value: BigInt) {
+    this.set("amountReceived", Value.fromBigInt(value));
+  }
+
+  get donations(): Array<string> {
+    let value = this.get("donations");
+    return value.toStringArray();
+  }
+
+  set donations(value: Array<string>) {
+    this.set("donations", Value.fromStringArray(value));
   }
 }
