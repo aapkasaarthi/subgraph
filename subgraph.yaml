@@ -14,10 +14,12 @@ dataSources:
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - newCampaign
-        - newCampaignDonation
-        - newFund
-        - newFundDonation
+        - CampaignHistoryItem
+        - Campaign
+        - FundItem
+        - Fund
+        - ReportItem
+        - ReportData
       abis:
         - name: Contract
           file: ./abis/Contract.json
@@ -30,4 +32,6 @@ dataSources:
           handler: handlenewFund
         - event: newFundDonation(uint256,indexed address,indexed address,uint256)
           handler: handlenewFundDonation
+        - event: newReport(indexed uint256,indexed address,indexed bytes32,bytes32,string,uint256)
+          handler: handlenewReport
       file: ./src/mapping.ts

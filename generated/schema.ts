@@ -333,3 +333,137 @@ export class Fund extends Entity {
     this.set("donations", Value.fromStringArray(value));
   }
 }
+
+export class ReportItem extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save ReportItem entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save ReportItem entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("ReportItem", id.toString(), this);
+  }
+
+  static load(id: string): ReportItem | null {
+    return store.get("ReportItem", id) as ReportItem | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get reportIndex(): BigInt {
+    let value = this.get("reportIndex");
+    return value.toBigInt();
+  }
+
+  set reportIndex(value: BigInt) {
+    this.set("reportIndex", Value.fromBigInt(value));
+  }
+
+  get reporter(): Bytes {
+    let value = this.get("reporter");
+    return value.toBytes();
+  }
+
+  set reporter(value: Bytes) {
+    this.set("reporter", Value.fromBytes(value));
+  }
+
+  get location(): string {
+    let value = this.get("location");
+    return value.toString();
+  }
+
+  set location(value: string) {
+    this.set("location", Value.fromString(value));
+  }
+
+  get file(): Bytes {
+    let value = this.get("file");
+    return value.toBytes();
+  }
+
+  set file(value: Bytes) {
+    this.set("file", Value.fromBytes(value));
+  }
+
+  get details(): string {
+    let value = this.get("details");
+    return value.toString();
+  }
+
+  set details(value: string) {
+    this.set("details", Value.fromString(value));
+  }
+
+  get reportedOn(): BigInt {
+    let value = this.get("reportedOn");
+    return value.toBigInt();
+  }
+
+  set reportedOn(value: BigInt) {
+    this.set("reportedOn", Value.fromBigInt(value));
+  }
+}
+
+export class ReportData extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save ReportData entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save ReportData entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("ReportData", id.toString(), this);
+  }
+
+  static load(id: string): ReportData | null {
+    return store.get("ReportData", id) as ReportData | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get totalReports(): BigInt {
+    let value = this.get("totalReports");
+    return value.toBigInt();
+  }
+
+  set totalReports(value: BigInt) {
+    this.set("totalReports", Value.fromBigInt(value));
+  }
+
+  get reports(): Array<string> {
+    let value = this.get("reports");
+    return value.toStringArray();
+  }
+
+  set reports(value: Array<string>) {
+    this.set("reports", Value.fromStringArray(value));
+  }
+}

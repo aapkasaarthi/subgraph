@@ -6,7 +6,7 @@
 ### Endpoints
 ```
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/anudit/saarthi
-IPFS:               https://api.thegraph.com/subgraphs/id/QmRWeA27JUEVQY1ELDK1foxwcg1NDV1WLCxToATnZj2BP8
+IPFS:               https://api.thegraph.com/subgraphs/id/QmaDuUssL4NDaMLNRZ778dayaDQmQ7sUYQjufM4irHCgop
 Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/anudit/saarthi
 ```
 
@@ -118,5 +118,26 @@ Get Funds Data.
 }
  </pre>
 </details>
+<br/>
+<br/>
 
 
+Get Reports Data.
+
+```
+  {
+     reportDatas {
+      id
+      totalReports
+      reports{
+        id
+        reportIndex
+        reporter
+        location
+        file
+        details
+        reportedOn
+      }
+    }
+  }
+```

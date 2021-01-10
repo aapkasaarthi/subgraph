@@ -11,7 +11,16 @@ import {
   newReport,
   newTaskCreated
 } from "../generated/Contract/Contract"
-import { Campaign, CampaignHistoryItem, Fund, FundItem} from "../generated/schema"
+
+import {
+  Campaign,
+  CampaignHistoryItem,
+  Fund,
+  FundItem,
+  ReportItem,
+  ReportData
+} from "../generated/schema"
+
 
 export function handlenewCampaign(event: newCampaign): void {
 
@@ -95,6 +104,32 @@ export function handlenewFundDonation(event: newFundDonation): void {
 
   fundItem.save()
   fund.save()
+}
+
+export function handlenewReport(event: newReport): void {
+
+  let reportItem = new ReportItem(event.transaction.hash.toHex())
+  reportItem.reportIndex = event.params._index
+  reportItem.reporter = event.params._reporter
+  reportItem.location = event.params._location.toString()
+  reportItem.file = event.params._file
+  reportItem.details = event.params._details.toString()
+  reportItem.reportedOn = event.params._time;
+
+  let reportData = ReportData.load("0x1")
+  if (reportData == null){
+    reportData = new ReportData("0x1")
+    reportData.totalReports = BigInt.fromI32(0)
+    reportData.reports = new Array<string>()
+  }
+
+  let reports = reportData.reports
+  reports.push(reportItem.id)
+  reportData.reports = reports
+  reportData.totalReports = reportData.totalReports.plus(BigInt.fromI32(1))
+
+  reportItem.save()
+  reportData.save()
 }
 
 // export function handlemodelUpdated(event: modelUpdated): void {

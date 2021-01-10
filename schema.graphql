@@ -16,6 +16,7 @@ type Campaign @entity {
   amountReceived: BigInt! # uint256
   campaignHistory: [CampaignHistoryItem!]!
 }
+
 type FundItem @entity {
   id: ID!
   createdOn: BigInt!
@@ -33,4 +34,20 @@ type Fund @entity {
   donationCount: BigInt! # uint256
   amountReceived: BigInt! # uint256
   donations: [FundItem!]! # addresses
+}
+
+type ReportItem @entity {
+  id: ID!
+  reportIndex : BigInt!
+  reporter : Bytes!
+  location : String!
+  file: Bytes!
+  details: String!
+  reportedOn : BigInt!
+}
+
+type ReportData @entity {
+  id: ID! # reportIndex
+  totalReports: BigInt! #uint256
+  reports: [ReportItem!]! # stringIds
 }
