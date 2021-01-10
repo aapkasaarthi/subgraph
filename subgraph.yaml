@@ -6,9 +6,9 @@ dataSources:
     name: Saarthi
     network: rinkeby
     source:
-      address: "0x3331b41B036d51A5d5E98d0907054a2fd2b9118E"
-      abi: Contract
-      startBlock: 7858603
+      address: "0x02e1cc93a0136c3b10eb8b67a73b1c10f506061d"
+      startBlock: 7868963
+      abi: Saarthi
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -21,16 +21,16 @@ dataSources:
         - ReportItem
         - ReportData
       abis:
-        - name: Contract
-          file: ./abis/Contract.json
+        - name: Saarthi
+          file: ./abis/Saarthi.json
       eventHandlers:
-        - event: newCampaign(indexed address,bytes32,uint256)
+        - event: newCampaign(indexed address,bytes32)
           handler: handlenewCampaign
         - event: newCampaignDonation(indexed address,indexed address,uint256)
           handler: handlenewCampaignDonation
-        - event: newFund(uint256,indexed bytes32,bytes32)
+        - event: newFund(indexed uint256,indexed bytes32,bytes32,indexed address)
           handler: handlenewFund
-        - event: newFundDonation(uint256,indexed address,indexed address,uint256)
+        - event: newFundDonation(indexed uint256,indexed address,indexed address,uint256)
           handler: handlenewFundDonation
         - event: newReport(indexed uint256,indexed address,indexed bytes32,bytes32,string,uint256)
           handler: handlenewReport

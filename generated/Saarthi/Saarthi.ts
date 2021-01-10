@@ -10,6 +10,24 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
+export class campaignStopped extends ethereum.Event {
+  get params(): campaignStopped__Params {
+    return new campaignStopped__Params(this);
+  }
+}
+
+export class campaignStopped__Params {
+  _event: campaignStopped;
+
+  constructor(event: campaignStopped) {
+    this._event = event;
+  }
+
+  get _campaigner(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+}
+
 export class modelUpdated extends ethereum.Event {
   get params(): modelUpdated__Params {
     return new modelUpdated__Params(this);
@@ -82,10 +100,6 @@ export class newCampaign__Params {
   get _campaignData(): Bytes {
     return this._event.parameters[1].value.toBytes();
   }
-
-  get _createdAt(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
 }
 
 export class newCampaignDonation extends ethereum.Event {
@@ -137,6 +151,10 @@ export class newFund__Params {
 
   get _fundName(): Bytes {
     return this._event.parameters[2].value.toBytes();
+  }
+
+  get _paymentReceiver(): Address {
+    return this._event.parameters[3].value.toAddress();
   }
 }
 
@@ -242,7 +260,7 @@ export class newTaskCreated__Params {
   }
 }
 
-export class Contract__SaarthiTasksResult {
+export class Saarthi__SaarthiTasksResult {
   value0: BigInt;
   value1: BigInt;
   value2: BigInt;
@@ -265,9 +283,9 @@ export class Contract__SaarthiTasksResult {
   }
 }
 
-export class Contract extends ethereum.SmartContract {
-  static bind(address: Address): Contract {
-    return new Contract("Contract", address);
+export class Saarthi extends ethereum.SmartContract {
+  static bind(address: Address): Saarthi {
+    return new Saarthi("Saarthi", address);
   }
 
   Campaigns(param0: BigInt): Address {
@@ -308,14 +326,14 @@ export class Contract extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  SaarthiTasks(param0: BigInt): Contract__SaarthiTasksResult {
+  SaarthiTasks(param0: BigInt): Saarthi__SaarthiTasksResult {
     let result = super.call(
       "SaarthiTasks",
       "SaarthiTasks(uint256):(uint256,uint256,uint256,uint256)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
 
-    return new Contract__SaarthiTasksResult(
+    return new Saarthi__SaarthiTasksResult(
       result[0].toBigInt(),
       result[1].toBigInt(),
       result[2].toBigInt(),
@@ -325,7 +343,7 @@ export class Contract extends ethereum.SmartContract {
 
   try_SaarthiTasks(
     param0: BigInt
-  ): ethereum.CallResult<Contract__SaarthiTasksResult> {
+  ): ethereum.CallResult<Saarthi__SaarthiTasksResult> {
     let result = super.tryCall(
       "SaarthiTasks",
       "SaarthiTasks(uint256):(uint256,uint256,uint256,uint256)",
@@ -336,7 +354,7 @@ export class Contract extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new Contract__SaarthiTasksResult(
+      new Saarthi__SaarthiTasksResult(
         value[0].toBigInt(),
         value[1].toBigInt(),
         value[2].toBigInt(),
@@ -703,7 +721,7 @@ export class CreateFundCall__Inputs {
     return this._call.inputValues[1].value.toBytes();
   }
 
-  get _orgAdress(): Address {
+  get _paymentReceiver(): Address {
     return this._call.inputValues[2].value.toAddress();
   }
 }

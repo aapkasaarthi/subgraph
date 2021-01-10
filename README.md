@@ -6,7 +6,7 @@
 ### Endpoints
 ```
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/anudit/saarthi
-IPFS:               https://api.thegraph.com/subgraphs/id/QmaDuUssL4NDaMLNRZ778dayaDQmQ7sUYQjufM4irHCgop
+IPFS:               https://api.thegraph.com/subgraphs/id/QmTEe74kFmSvMnb6zftxgD7DqkcQk35PfFxW1UzrKArFwT
 Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/anudit/saarthi
 ```
 
@@ -25,7 +25,7 @@ Get Campaign Data.
         amountReceived
         campaignHistory {
             id
-            createdAt
+            createdOn
             campaignData
             donationCount
             amountReceived
@@ -48,7 +48,7 @@ Get Campaign Data.
           {
             "amountReceived": "0",
             "campaignData": "Henlo, Plz welp.",
-            "createdAt": "1610107225",
+            "createdOn": "1610107225",
             "donationCount": "0",
             "donatorAddresses": [],
             "id": "0x68b33f79309769570c5e3209ad50ce0136497e2ef6ff86717f45ed3b9406c62c"
@@ -70,7 +70,7 @@ Get Funds Data.
 
 ```
 {
-  funds(first:2 skip:1) {
+  funds(first:1) {
     id
     paymentReceiver
     fundIndex
@@ -125,19 +125,48 @@ Get Funds Data.
 Get Reports Data.
 
 ```
-  {
-     reportDatas {
+{
+    reportDatas {
+    id
+    totalReports
+    reports{
       id
-      totalReports
-      reports{
-        id
-        reportIndex
-        reporter
-        location
-        file
-        details
-        reportedOn
-      }
+      reportIndex
+      reporter
+      location
+      file
+      details
+      reportedOn
     }
   }
+}
 ```
+
+<details>
+ <summary>Response</summary>
+ <pre>
+{
+  "data": {
+    "reportDatas": [
+      {
+        "id": "0x1",
+        "reports": [
+          {
+            "details": "This is an anonymous report",
+            "file": "0x638b5c1f82e17065a852c7884e5de738f3fcb5842c677ee3f90b6b76d6b79616",
+            "id": "0x73bd581289e3784eb3ecfde20066995537925224c3a277e7928b05274e8c0a5b",
+            "location": "12.9863 10.2736",
+            "reportIndex": "0",
+            "reportedOn": "1610257633",
+            "reporter": "0x707ac3937a9b31c225d8c240f5917be97cab9f20"
+          }
+        ],
+        "totalReports": "1"
+      }
+    ]
+  }
+}
+ </pre>
+</details>
+<br/>
+<br/>

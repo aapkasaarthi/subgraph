@@ -4,6 +4,19 @@
     "inputs": [
       {
         "indexed": true,
+        "internalType": "address",
+        "name": "_campaigner",
+        "type": "address"
+      }
+    ],
+    "name": "campaignStopped",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
         "internalType": "uint256",
         "name": "taskID",
         "type": "uint256"
@@ -63,12 +76,6 @@
         "internalType": "bytes32",
         "name": "_campaignData",
         "type": "bytes32"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "_createdAt",
-        "type": "uint256"
       }
     ],
     "name": "newCampaign",
@@ -103,7 +110,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "_fundIndex",
         "type": "uint256"
@@ -119,6 +126,12 @@
         "internalType": "bytes32",
         "name": "_fundName",
         "type": "bytes32"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_paymentReceiver",
+        "type": "address"
       }
     ],
     "name": "newFund",
@@ -128,7 +141,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "_fundIndex",
         "type": "uint256"
@@ -334,7 +347,7 @@
       { "internalType": "bytes32", "name": "_fundName", "type": "bytes32" },
       {
         "internalType": "address payable",
-        "name": "_orgAdress",
+        "name": "_paymentReceiver",
         "type": "address"
       }
     ],
