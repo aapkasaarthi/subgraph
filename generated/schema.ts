@@ -12,6 +12,158 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
+export class TaskState extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save TaskState entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save TaskState entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("TaskState", id.toString(), this);
+  }
+
+  static load(id: string): TaskState | null {
+    return store.get("TaskState", id) as TaskState | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get round(): BigInt {
+    let value = this.get("round");
+    return value.toBigInt();
+  }
+
+  set round(value: BigInt) {
+    this.set("round", Value.fromBigInt(value));
+  }
+
+  get modelState(): Bytes {
+    let value = this.get("modelState");
+    return value.toBytes();
+  }
+
+  set modelState(value: Bytes) {
+    this.set("modelState", Value.fromBytes(value));
+  }
+
+  get createdOn(): BigInt {
+    let value = this.get("createdOn");
+    return value.toBigInt();
+  }
+
+  set createdOn(value: BigInt) {
+    this.set("createdOn", Value.fromBigInt(value));
+  }
+}
+
+export class Task extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Task entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Task entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Task", id.toString(), this);
+  }
+
+  static load(id: string): Task | null {
+    return store.get("Task", id) as Task | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get taskId(): BigInt {
+    let value = this.get("taskId");
+    return value.toBigInt();
+  }
+
+  set taskId(value: BigInt) {
+    this.set("taskId", Value.fromBigInt(value));
+  }
+
+  get user(): Bytes {
+    let value = this.get("user");
+    return value.toBytes();
+  }
+
+  set user(value: Bytes) {
+    this.set("user", Value.fromBytes(value));
+  }
+
+  get cost(): BigInt {
+    let value = this.get("cost");
+    return value.toBigInt();
+  }
+
+  set cost(value: BigInt) {
+    this.set("cost", Value.fromBigInt(value));
+  }
+
+  get createdOn(): BigInt {
+    let value = this.get("createdOn");
+    return value.toBigInt();
+  }
+
+  set createdOn(value: BigInt) {
+    this.set("createdOn", Value.fromBigInt(value));
+  }
+
+  get currentRound(): BigInt {
+    let value = this.get("currentRound");
+    return value.toBigInt();
+  }
+
+  set currentRound(value: BigInt) {
+    this.set("currentRound", Value.fromBigInt(value));
+  }
+
+  get totalRounds(): BigInt {
+    let value = this.get("totalRounds");
+    return value.toBigInt();
+  }
+
+  set totalRounds(value: BigInt) {
+    this.set("totalRounds", Value.fromBigInt(value));
+  }
+
+  get modelstates(): Array<string> {
+    let value = this.get("modelstates");
+    return value.toStringArray();
+  }
+
+  set modelstates(value: Array<string>) {
+    this.set("modelstates", Value.fromStringArray(value));
+  }
+}
+
 export class Bill extends Entity {
   constructor(id: string) {
     super();

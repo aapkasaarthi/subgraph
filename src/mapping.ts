@@ -16,15 +16,56 @@ import {
   ReportItem,
   ReportData,
   Approval,
-  Bill, Hospital, HospitalBill
+  Bill, Hospital, HospitalBill,
+  TaskState, Task
 } from "../generated/schema"
 
 export function handlenewTaskCreated(event: newTaskCreated): void {
-  // TODO
+  let contract = Saarthi.bind(event.address)
+  let taskData = contract.SaarthiTasks(event.params.taskID)
+
+  let taskItem = new Task(event.params.taskID.toString())
+  taskItem.taskId = event.params.taskID
+  taskItem.user = event.params._user
+  taskItem.cost = event.params._amt
+  taskItem.createdOn = event.params._time
+  taskItem.totalRounds = taskData.value2
+  taskItem.currentRound = BigInt.fromI32(1)
+  taskItem.modelstates = new Array<string>()
+
+  let taskStateItem = new TaskState(event.transaction.hash.toHexString())
+  taskStateItem.round = BigInt.fromI32(1)
+  taskStateItem.modelState = event.params._modelHash
+  // taskStateItem.computer = event.transaction.from
+  taskStateItem.createdOn = event.params._time
+
+  let modelstates = taskItem.modelstates
+  modelstates.push(taskStateItem.id)
+  taskItem.modelstates = modelstates
+
+  taskStateItem.save()
+  taskItem.save()
 }
 
 export function handlemodelUpdated(event: modelUpdated): void {
-  // TODO
+  let contract = Saarthi.bind(event.address)
+  let taskData = contract.SaarthiTasks(event.params.taskID)
+
+  let taskStateItem = new TaskState(event.transaction.hash.toHexString())
+  taskStateItem.round = taskData.value1
+  taskStateItem.modelState = event.params._modelHash
+  taskStateItem.createdOn = event.params._time
+
+  let taskItem = Task.load(event.params.taskID.toString())
+  taskItem.currentRound = taskItem.currentRound.plus(BigInt.fromI32(1))
+
+  let modelstates = taskItem.modelstates
+  modelstates.push(taskStateItem.id)
+  taskItem.modelstates = modelstates
+
+  taskStateItem.save()
+  taskItem.save()
+
 }
 
 export function handlenewApproval(event: newApproval): void {

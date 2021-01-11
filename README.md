@@ -203,3 +203,61 @@ Get Approvals Data.
 </details>
 <br/>
 <br/>
+
+Get Task Coordinator Data.
+
+```
+{
+    tasks {
+     id
+      taskId
+      user
+      cost
+      createdOn
+      currentRound
+      totalRounds
+      modelstates {
+        id
+        round
+        modelState
+        createdOn
+      }
+    }
+}
+```
+
+<details>
+ <summary>Response</summary>
+ <pre>
+{
+  "data": {
+    "tasks": [
+      {
+        "cost": "0",
+        "createdOn": "1610352951",
+        "currentRound": "2",
+        "id": "1",
+        "modelstates": [
+          {
+            "createdOn": "1610352951",
+            "id": "0x6d609f205882c790e794b321c0f7120260f8cbc484a5a5de356e517860b03226",
+            "modelState": "0x7d5a99f603f231d53a4f39d1521f98d2e8bb279cf29bebfd0687dc98458e7f89",
+            "round": "1"
+          },
+          {
+            "createdOn": "1610353041",
+            "id": "0xf2abffbc21fdb72465c068b8aa6c79c59a76292b6a70587d5f7e09451faad064",
+            "modelState": "0x7d5a99f603f231d53a4f39d1521f98d2e8bb279cf29bebfd0687dc98458e7f89",
+            "round": "2"
+          }
+        ],
+        "taskId": "1",
+        "totalRounds": "2",
+        "user": "0x707ac3937a9b31c225d8c240f5917be97cab9f20"
+      }
+    ]
+  }
+}  </pre>
+</details>
+<br/>
+<br/>

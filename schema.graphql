@@ -2,6 +2,23 @@
 # Task Coordinator
 #------------------------------
 
+type TaskState @entity {
+  id: ID! #Txnhash
+  round: BigInt!
+  modelState: Bytes!
+  createdOn: BigInt!
+}
+
+type Task @entity {
+  id: ID! #taskID
+  taskId: BigInt!
+  user: Bytes!
+  cost: BigInt!
+  createdOn: BigInt!
+  currentRound: BigInt!
+  totalRounds: BigInt!
+  modelstates: [TaskState!]!
+}
 
 #------------------------------
 # Hospitals

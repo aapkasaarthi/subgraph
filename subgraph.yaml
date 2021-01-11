@@ -23,6 +23,8 @@ dataSources:
         - Bill
         - HospitalBill
         - Hospital
+        - TaskState
+        - Task
       abis:
         - name: Saarthi
           file: ./abis/Saarthi.json
