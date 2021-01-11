@@ -12,6 +12,171 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
+export class Bill extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Bill entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Bill entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Bill", id.toString(), this);
+  }
+
+  static load(id: string): Bill | null {
+    return store.get("Bill", id) as Bill | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get from(): Bytes {
+    let value = this.get("from");
+    return value.toBytes();
+  }
+
+  set from(value: Bytes) {
+    this.set("from", Value.fromBytes(value));
+  }
+
+  get to(): Bytes {
+    let value = this.get("to");
+    return value.toBytes();
+  }
+
+  set to(value: Bytes) {
+    this.set("to", Value.fromBytes(value));
+  }
+
+  get amount(): BigInt {
+    let value = this.get("amount");
+    return value.toBigInt();
+  }
+
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
+  }
+}
+
+export class HospitalBill extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save HospitalBill entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save HospitalBill entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("HospitalBill", id.toString(), this);
+  }
+
+  static load(id: string): HospitalBill | null {
+    return store.get("HospitalBill", id) as HospitalBill | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get totalBilledAmount(): BigInt {
+    let value = this.get("totalBilledAmount");
+    return value.toBigInt();
+  }
+
+  set totalBilledAmount(value: BigInt) {
+    this.set("totalBilledAmount", Value.fromBigInt(value));
+  }
+
+  get billsCount(): BigInt {
+    let value = this.get("billsCount");
+    return value.toBigInt();
+  }
+
+  set billsCount(value: BigInt) {
+    this.set("billsCount", Value.fromBigInt(value));
+  }
+
+  get bills(): Array<string> {
+    let value = this.get("bills");
+    return value.toStringArray();
+  }
+
+  set bills(value: Array<string>) {
+    this.set("bills", Value.fromStringArray(value));
+  }
+}
+
+export class Hospital extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Hospital entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Hospital entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Hospital", id.toString(), this);
+  }
+
+  static load(id: string): Hospital | null {
+    return store.get("Hospital", id) as Hospital | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get state(): boolean {
+    let value = this.get("state");
+    return value.toBoolean();
+  }
+
+  set state(value: boolean) {
+    this.set("state", Value.fromBoolean(value));
+  }
+
+  get bills(): Array<string> {
+    let value = this.get("bills");
+    return value.toStringArray();
+  }
+
+  set bills(value: Array<string>) {
+    this.set("bills", Value.fromStringArray(value));
+  }
+}
+
 export class Approval extends Entity {
   constructor(id: string) {
     super();

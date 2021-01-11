@@ -20,6 +20,9 @@ dataSources:
         - Fund
         - ReportItem
         - ReportData
+        - Bill
+        - HospitalBill
+        - Hospital
       abis:
         - name: Saarthi
           file: ./abis/Saarthi.json
@@ -36,4 +39,8 @@ dataSources:
           handler: handlenewReport
         - event: newApproval(indexed address,indexed address,bool)
           handler: handlenewApproval
+        - event: newTaskCreated(indexed uint256,indexed address,bytes32,uint256,uint256)
+          handler: handlenewTaskCreated
+        - event: modelUpdated(indexed uint256,bytes32,uint256)
+          handler: handlemodelUpdated
       file: ./src/mapping.ts

@@ -170,3 +170,36 @@ Get Reports Data.
 </details>
 <br/>
 <br/>
+
+Get Approvals Data.
+
+```
+{
+  approvals {
+    id
+    from
+    to
+    state
+  }
+}
+```
+
+<details>
+ <summary>Response</summary>
+ <pre>
+{
+  "data": {
+    "approvals": [
+      {
+        "from": "0x707ac3937a9b31c225d8c240f5917be97cab9f20",
+        "id": "0x707ac3937a9b31c225d8c240f5917be97cab9f20-0xbeb71662ff9c08afef3866f85a6591d4aebe6e4e",
+        "state": true,
+        "to": "0xbeb71662ff9c08afef3866f85a6591d4aebe6e4e"
+      }
+    ]
+  }
+}
+ </pre>
+</details>
+<br/>
+<br/>

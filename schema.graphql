@@ -1,4 +1,34 @@
 #------------------------------
+# Task Coordinator
+#------------------------------
+
+
+#------------------------------
+# Hospitals
+#------------------------------
+
+type Bill @entity {
+  id: ID! # txn Hash
+  from: Bytes! # from hospital address
+  to: Bytes! # billed address
+  amount: BigInt! # boolean
+}
+
+type HospitalBill @entity {
+  id: ID! # user address
+  totalBilledAmount: BigInt!
+  billsCount: BigInt!
+  bills: [Bill!]!
+}
+
+type Hospital @entity {
+  id: ID! #hospital address
+  state: Boolean
+  bills: [Bill!]!
+}
+
+
+#------------------------------
 # Accessors
 #------------------------------
 

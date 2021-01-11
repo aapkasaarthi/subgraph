@@ -1,14 +1,11 @@
 import { BigInt, Bytes } from "@graphprotocol/graph-ts"
 import {
   Saarthi,
-  modelUpdated,
+  modelUpdated, newTaskCreated,
   newApproval,
-  newCampaign,
-  newCampaignDonation,
-  newFund,
-  newFundDonation,
-  newReport,
-  newTaskCreated
+  newCampaign,newCampaignDonation,
+  newFund, newFundDonation,
+  newReport
 } from "../generated/Saarthi/Saarthi"
 
 import {
@@ -18,8 +15,17 @@ import {
   FundItem,
   ReportItem,
   ReportData,
-  Approval
+  Approval,
+  Bill, Hospital, HospitalBill
 } from "../generated/schema"
+
+export function handlenewTaskCreated(event: newTaskCreated): void {
+  // TODO
+}
+
+export function handlemodelUpdated(event: modelUpdated): void {
+  // TODO
+}
 
 export function handlenewApproval(event: newApproval): void {
 
@@ -36,6 +42,18 @@ export function handlenewApproval(event: newApproval): void {
   }
   approvalItem.save()
 }
+
+// export function handleToggleHospitalCall(call: ToggleHospitalCall): void {
+//   let hospitalItem = Hospital.load(call.inputs._address.toHex())
+//   if(hospitalItem ==  null){
+//     hospitalItem = new Hospital(call.inputs._address.toHex())
+//     hospitalItem.state = true
+//     hospitalItem.bills = new Array<string>()
+//   }
+//   else {
+//     hospitalItem.state = !hospitalItem.state
+//   }
+// }
 
 export function handlenewCampaign(event: newCampaign): void {
 
