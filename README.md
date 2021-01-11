@@ -6,7 +6,7 @@
 ### Endpoints
 ```
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/anudit/saarthi
-IPFS:               https://api.thegraph.com/subgraphs/id/QmTEe74kFmSvMnb6zftxgD7DqkcQk35PfFxW1UzrKArFwT
+IPFS:               https://api.thegraph.com/subgraphs/id/QmdSRP5Gk54PXYcXXNwRBVeS4XmHN4jjWviZDFy9HKZ2ZN
 Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/anudit/saarthi
 ```
 

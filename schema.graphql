@@ -1,5 +1,20 @@
+#------------------------------
+# Accessors
+#------------------------------
+
+type Approval @entity {
+  id: ID!
+  from: Bytes! # address
+  to: Bytes! # address
+  state: Boolean! # boolean
+}
+
+#------------------------------
+# Public Campaigns
+#------------------------------
+
 type CampaignHistoryItem @entity {
-  id: ID! # Txn hash
+  id: ID! # Txnhash
   campaignData: String! # string
   createdOn: BigInt! # uint256
   donationCount: BigInt! # uint256
@@ -16,6 +31,10 @@ type Campaign @entity {
   amountReceived: BigInt! # uint256
   campaignHistory: [CampaignHistoryItem!]!
 }
+
+#------------------------------
+# Crowdfunding
+#------------------------------
 
 type FundItem @entity {
   id: ID!
@@ -35,6 +54,10 @@ type Fund @entity {
   amountReceived: BigInt! # uint256
   donations: [FundItem!]! # addresses
 }
+
+#------------------------------
+# Reports
+#------------------------------
 
 type ReportItem @entity {
   id: ID!

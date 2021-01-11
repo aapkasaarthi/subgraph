@@ -34,4 +34,6 @@ dataSources:
           handler: handlenewFundDonation
         - event: newReport(indexed uint256,indexed address,indexed bytes32,bytes32,string,uint256)
           handler: handlenewReport
+        - event: newApproval(indexed address,indexed address,bool)
+          handler: handlenewApproval
       file: ./src/mapping.ts

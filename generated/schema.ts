@@ -12,6 +12,64 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
+export class Approval extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Approval entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Approval entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Approval", id.toString(), this);
+  }
+
+  static load(id: string): Approval | null {
+    return store.get("Approval", id) as Approval | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get from(): Bytes {
+    let value = this.get("from");
+    return value.toBytes();
+  }
+
+  set from(value: Bytes) {
+    this.set("from", Value.fromBytes(value));
+  }
+
+  get to(): Bytes {
+    let value = this.get("to");
+    return value.toBytes();
+  }
+
+  set to(value: Bytes) {
+    this.set("to", Value.fromBytes(value));
+  }
+
+  get state(): boolean {
+    let value = this.get("state");
+    return value.toBoolean();
+  }
+
+  set state(value: boolean) {
+    this.set("state", Value.fromBoolean(value));
+  }
+}
+
 export class CampaignHistoryItem extends Entity {
   constructor(id: string) {
     super();

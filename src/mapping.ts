@@ -17,8 +17,25 @@ import {
   Fund,
   FundItem,
   ReportItem,
-  ReportData
+  ReportData,
+  Approval
 } from "../generated/schema"
+
+export function handlenewApproval(event: newApproval): void {
+
+  let approvalItem = Approval.load(event.params._from.toHexString() + event.params._to.toHexString())
+
+  if (approvalItem == null ) {
+    approvalItem = new Approval(event.params._from.toHexString() +"-" +  event.params._to.toHexString())
+    approvalItem.from = event.params._from
+    approvalItem.to = event.params._to
+    approvalItem.state = true
+  }
+  else {
+    approvalItem.state = !approvalItem.state
+  }
+  approvalItem.save()
+}
 
 export function handlenewCampaign(event: newCampaign): void {
 
