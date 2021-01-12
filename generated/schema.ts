@@ -51,13 +51,13 @@ export class TaskState extends Entity {
     this.set("round", Value.fromBigInt(value));
   }
 
-  get modelState(): Bytes {
+  get modelState(): string {
     let value = this.get("modelState");
-    return value.toBytes();
+    return value.toString();
   }
 
-  set modelState(value: Bytes) {
-    this.set("modelState", Value.fromBytes(value));
+  set modelState(value: string) {
+    this.set("modelState", Value.fromString(value));
   }
 
   get createdOn(): BigInt {
@@ -766,13 +766,13 @@ export class ReportItem extends Entity {
     this.set("location", Value.fromString(value));
   }
 
-  get file(): Bytes {
+  get file(): string {
     let value = this.get("file");
-    return value.toBytes();
+    return value.toString();
   }
 
-  set file(value: Bytes) {
-    this.set("file", Value.fromBytes(value));
+  set file(value: string) {
+    this.set("file", Value.fromString(value));
   }
 
   get details(): string {

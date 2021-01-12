@@ -6,7 +6,7 @@
 ### Endpoints
 ```
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/anudit/saarthi
-IPFS:               https://api.thegraph.com/subgraphs/id/QmdSRP5Gk54PXYcXXNwRBVeS4XmHN4jjWviZDFy9HKZ2ZN
+IPFS:               https://api.thegraph.com/subgraphs/id/QmQBFexmtHWGiJpSACykuEFspJ3RWiCPUZQC6YE9mVWCZ6
 Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/anudit/saarthi
 ```
 
@@ -153,20 +153,19 @@ Get Reports Data.
         "reports": [
           {
             "details": "This is an anonymous report",
-            "file": "0x638b5c1f82e17065a852c7884e5de738f3fcb5842c677ee3f90b6b76d6b79616",
-            "id": "0x73bd581289e3784eb3ecfde20066995537925224c3a277e7928b05274e8c0a5b",
+            "file": "QmV3EKe4faozxGuY2ePGMqKjana3zjmkzJEuQ9NEHjefeu",
+            "id": "0x2fb80842a9c23d46bcfc72b61748103482018f30400297b8475b06ebf7b0d117",
             "location": "12.9863 10.2736",
             "reportIndex": "0",
-            "reportedOn": "1610257633",
-            "reporter": "0x707ac3937a9b31c225d8c240f5917be97cab9f20"
+            "reportedOn": "1610275499",
+            "reporter": "0xbeb71662ff9c08afef3866f85a6591d4aebe6e4e"
           }
         ],
         "totalReports": "1"
       }
     ]
   }
-}
- </pre>
+} </pre>
 </details>
 <br/>
 <br/>
@@ -241,13 +240,13 @@ Get Task Coordinator Data.
           {
             "createdOn": "1610352951",
             "id": "0x6d609f205882c790e794b321c0f7120260f8cbc484a5a5de356e517860b03226",
-            "modelState": "0x7d5a99f603f231d53a4f39d1521f98d2e8bb279cf29bebfd0687dc98458e7f89",
+            "modelState": "QmWmyoMoctfbAaiEs2G46gpeUmhqFRDW6KWo64y5r581Vz",
             "round": "1"
           },
           {
             "createdOn": "1610353041",
             "id": "0xf2abffbc21fdb72465c068b8aa6c79c59a76292b6a70587d5f7e09451faad064",
-            "modelState": "0x7d5a99f603f231d53a4f39d1521f98d2e8bb279cf29bebfd0687dc98458e7f89",
+            "modelState": "QmWmyoMoctfbAaiEs2G46gpeUmhqFRDW6KWo64y5r581Vz",
             "round": "2"
           }
         ],

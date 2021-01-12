@@ -5,7 +5,7 @@
 type TaskState @entity {
   id: ID! #Txnhash
   round: BigInt!
-  modelState: Bytes!
+  modelState: String!
   createdOn: BigInt!
 }
 
@@ -111,7 +111,7 @@ type ReportItem @entity {
   reportIndex : BigInt!
   reporter : Bytes!
   location : String!
-  file: Bytes!
+  file: String!
   details: String!
   reportedOn : BigInt!
 }

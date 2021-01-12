@@ -1,4 +1,4 @@
-import { BigInt, Bytes } from "@graphprotocol/graph-ts"
+import { BigInt, Bytes, ByteArray } from "@graphprotocol/graph-ts"
 import {
   Saarthi,
   modelUpdated, newTaskCreated,
@@ -20,6 +20,17 @@ import {
   TaskState, Task
 } from "../generated/schema"
 
+export function getIpfsHashFromBytes32(a: Bytes): string {
+  let byteArray = ByteArray.fromHexString(a.toHexString())
+  let out = new Uint8Array(34)
+  out[0] = 0x12
+  out[1] = 0x20
+  for (let i = 0; i < 32; i++) {
+    out[i + 2] = byteArray[i]
+  }
+  return (out as ByteArray).toBase58().toString()
+}
+
 export function handlenewTaskCreated(event: newTaskCreated): void {
   let contract = Saarthi.bind(event.address)
   let taskData = contract.SaarthiTasks(event.params.taskID)
@@ -35,7 +46,7 @@ export function handlenewTaskCreated(event: newTaskCreated): void {
 
   let taskStateItem = new TaskState(event.transaction.hash.toHexString())
   taskStateItem.round = BigInt.fromI32(1)
-  taskStateItem.modelState = event.params._modelHash
+  taskStateItem.modelState = getIpfsHashFromBytes32(event.params._modelHash)
   // taskStateItem.computer = event.transaction.from
   taskStateItem.createdOn = event.params._time
 
@@ -53,7 +64,7 @@ export function handlemodelUpdated(event: modelUpdated): void {
 
   let taskStateItem = new TaskState(event.transaction.hash.toHexString())
   taskStateItem.round = taskData.value1
-  taskStateItem.modelState = event.params._modelHash
+  taskStateItem.modelState = getIpfsHashFromBytes32(event.params._modelHash)
   taskStateItem.createdOn = event.params._time
 
   let taskItem = Task.load(event.params.taskID.toString())
@@ -186,7 +197,7 @@ export function handlenewReport(event: newReport): void {
   reportItem.reportIndex = event.params._index
   reportItem.reporter = event.params._reporter
   reportItem.location = event.params._location.toString()
-  reportItem.file = event.params._file
+  reportItem.file = getIpfsHashFromBytes32(event.params._file)
   reportItem.details = event.params._details.toString()
   reportItem.reportedOn = event.params._time;
 
