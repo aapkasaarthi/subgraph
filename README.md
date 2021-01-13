@@ -6,7 +6,7 @@
 ### Endpoints
 ```
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/anudit/saarthi
-IPFS:               https://api.thegraph.com/subgraphs/id/QmQBFexmtHWGiJpSACykuEFspJ3RWiCPUZQC6YE9mVWCZ6
+IPFS:               https://api.thegraph.com/subgraphs/id/QmW3q6XtPqHo3x1kDYainz8hHw36hyphgkqoxvVYeSrL2z
 Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/anudit/saarthi
 ```
 
@@ -17,16 +17,17 @@ Get Campaign Data.
 
 ```
 {
-    campaigns(first:1) {
+    campaigns {
         id
         campaigner
         campaignCount
+      	campaignEnabled
         donationCount
         amountReceived
         campaignHistory {
             id
-            createdOn
             campaignData
+            createdOn
             donationCount
             amountReceived
             donatorAddresses
@@ -44,19 +45,40 @@ Get Campaign Data.
       {
         "amountReceived": "0",
         "campaignCount": "1",
+        "campaignEnabled": true,
         "campaignHistory": [
           {
             "amountReceived": "0",
-            "campaignData": "Henlo, Plz welp.",
-            "createdOn": "1610107225",
+            "campaignData": "QmR3VgpgJcGJZX4iazxBcvn2G7jHktLCdozaWF6Hp8DLLH",
+            "createdOn": "1610423578",
             "donationCount": "0",
             "donatorAddresses": [],
-            "id": "0x68b33f79309769570c5e3209ad50ce0136497e2ef6ff86717f45ed3b9406c62c"
+            "id": "0x99ca5dc3da5ba953d78847d3b852f1bec1b63637261ed86942793657746727ae"
           }
         ],
         "campaigner": "0x707ac3937a9b31c225d8c240f5917be97cab9f20",
         "donationCount": "0",
         "id": "0x707ac3937a9b31c225d8c240f5917be97cab9f20"
+      },
+      {
+        "amountReceived": "50000000000000000",
+        "campaignCount": "1",
+        "campaignEnabled": true,
+        "campaignHistory": [
+          {
+            "amountReceived": "50000000000000000",
+            "campaignData": "QmR3VgpgJcGJZX4iazxBcvn2G7jHktLCdozaWF6Hp8DLLH",
+            "createdOn": "1610423593",
+            "donationCount": "1",
+            "donatorAddresses": [
+              "0x707ac3937a9b31c225d8c240f5917be97cab9f20"
+            ],
+            "id": "0x766791c2e0218c18f032d16d6c819676a7a9c42ed5a346d7fe34b5a8bd1ba7bd"
+          }
+        ],
+        "campaigner": "0xbeb71662ff9c08afef3866f85a6591d4aebe6e4e",
+        "donationCount": "1",
+        "id": "0xbeb71662ff9c08afef3866f85a6591d4aebe6e4e"
       }
     ]
   }
@@ -152,13 +174,13 @@ Get Reports Data.
         "id": "0x1",
         "reports": [
           {
-            "details": "This is an anonymous report",
-            "file": "QmV3EKe4faozxGuY2ePGMqKjana3zjmkzJEuQ9NEHjefeu",
-            "id": "0x2fb80842a9c23d46bcfc72b61748103482018f30400297b8475b06ebf7b0d117",
-            "location": "12.9863 10.2736",
+            "details": "An Anonymous Report filed at GooglePlex.",
+            "file": "QmR3VgpgJcGJZX4iazxBcvn2G7jHktLCdozaWF6Hp8DLLH",
+            "id": "0x0",
+            "location": "37.4221 N, 122.0841 W",
             "reportIndex": "0",
-            "reportedOn": "1610275499",
-            "reporter": "0xbeb71662ff9c08afef3866f85a6591d4aebe6e4e"
+            "reportedOn": "1610423608",
+            "reporter": "0x707ac3937a9b31c225d8c240f5917be97cab9f20"
           }
         ],
         "totalReports": "1"
@@ -260,3 +282,75 @@ Get Task Coordinator Data.
 </details>
 <br/>
 <br/>
+
+
+Get Hospital Data
+
+```
+{
+  	hospitals {
+      id
+      state
+      totalBilledAmount
+      billsCount
+      bills {
+        id
+        from
+        to
+        amount
+      }
+    }
+    userHospitalBills {
+      id
+      totalBilledAmount
+      billsCount
+      bills {
+        id
+        from
+        to
+        amount
+      }
+    }
+}
+```
+<details>
+ <summary>Response</summary>
+ <pre>{
+  "data": {
+    "hospitals": [
+      {
+        "bills": [
+          {
+            "amount": "1000000000000000000",
+            "from": "0xbeb71662ff9c08afef3866f85a6591d4aebe6e4e",
+            "id": "0x99d44cc52a747267a0f6af6a81f63f69d0826ebf84ffbd79e9d24664f900f9e3",
+            "to": "0xd90c844c0252797c2e3f87aa63a8389a16a63767"
+          }
+        ],
+        "billsCount": "1",
+        "id": "0xbeb71662ff9c08afef3866f85a6591d4aebe6e4e",
+        "state": true,
+        "totalBilledAmount": "1000000000000000000"
+      }
+    ],
+    "userHospitalBills": [
+      {
+        "bills": [
+          {
+            "amount": "1000000000000000000",
+            "from": "0xbeb71662ff9c08afef3866f85a6591d4aebe6e4e",
+            "id": "0x99d44cc52a747267a0f6af6a81f63f69d0826ebf84ffbd79e9d24664f900f9e3",
+            "to": "0xd90c844c0252797c2e3f87aa63a8389a16a63767"
+          }
+        ],
+        "billsCount": "1",
+        "id": "0xd90c844c0252797c2e3f87aa63a8389a16a63767",
+        "totalBilledAmount": "1000000000000000000"
+      }
+    ]
+  }
+} </pre>
+</details>
+<br/>
+<br/>
+

@@ -222,7 +222,7 @@ export class Bill extends Entity {
   }
 }
 
-export class HospitalBill extends Entity {
+export class UserHospitalBill extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -230,17 +230,17 @@ export class HospitalBill extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save HospitalBill entity without an ID");
+    assert(id !== null, "Cannot save UserHospitalBill entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save HospitalBill entity with non-string ID. " +
+      "Cannot save UserHospitalBill entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("HospitalBill", id.toString(), this);
+    store.set("UserHospitalBill", id.toString(), this);
   }
 
-  static load(id: string): HospitalBill | null {
-    return store.get("HospitalBill", id) as HospitalBill | null;
+  static load(id: string): UserHospitalBill | null {
+    return store.get("UserHospitalBill", id) as UserHospitalBill | null;
   }
 
   get id(): string {
@@ -317,6 +317,24 @@ export class Hospital extends Entity {
 
   set state(value: boolean) {
     this.set("state", Value.fromBoolean(value));
+  }
+
+  get totalBilledAmount(): BigInt {
+    let value = this.get("totalBilledAmount");
+    return value.toBigInt();
+  }
+
+  set totalBilledAmount(value: BigInt) {
+    this.set("totalBilledAmount", Value.fromBigInt(value));
+  }
+
+  get billsCount(): BigInt {
+    let value = this.get("billsCount");
+    return value.toBigInt();
+  }
+
+  set billsCount(value: BigInt) {
+    this.set("billsCount", Value.fromBigInt(value));
   }
 
   get bills(): Array<string> {
@@ -548,7 +566,7 @@ export class Campaign extends Entity {
   }
 }
 
-export class FundItem extends Entity {
+export class DonationItem extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -556,17 +574,17 @@ export class FundItem extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save FundItem entity without an ID");
+    assert(id !== null, "Cannot save DonationItem entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save FundItem entity with non-string ID. " +
+      "Cannot save DonationItem entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("FundItem", id.toString(), this);
+    store.set("DonationItem", id.toString(), this);
   }
 
-  static load(id: string): FundItem | null {
-    return store.get("FundItem", id) as FundItem | null;
+  static load(id: string): DonationItem | null {
+    return store.get("DonationItem", id) as DonationItem | null;
   }
 
   get id(): string {
@@ -709,6 +727,46 @@ export class Fund extends Entity {
   }
 }
 
+export class ReportUpdate extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save ReportUpdate entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save ReportUpdate entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("ReportUpdate", id.toString(), this);
+  }
+
+  static load(id: string): ReportUpdate | null {
+    return store.get("ReportUpdate", id) as ReportUpdate | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get update(): string {
+    let value = this.get("update");
+    return value.toString();
+  }
+
+  set update(value: string) {
+    this.set("update", Value.fromString(value));
+  }
+}
+
 export class ReportItem extends Entity {
   constructor(id: string) {
     super();
@@ -791,6 +849,15 @@ export class ReportItem extends Entity {
 
   set reportedOn(value: BigInt) {
     this.set("reportedOn", Value.fromBigInt(value));
+  }
+
+  get updates(): Array<string> {
+    let value = this.get("updates");
+    return value.toStringArray();
+  }
+
+  set updates(value: Array<string>) {
+    this.set("updates", Value.fromStringArray(value));
   }
 }
 

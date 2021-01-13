@@ -2,21 +2,19 @@ import { BigInt, Bytes, ByteArray } from "@graphprotocol/graph-ts"
 import {
   Saarthi,
   modelUpdated, newTaskCreated,
+  hospitalUpdated, newBill,
   newApproval,
-  newCampaign,newCampaignDonation,
+  newCampaign,newCampaignDonation,campaignStopped,
   newFund, newFundDonation,
-  newReport
+  newReport, updateReport
 } from "../generated/Saarthi/Saarthi"
 
 import {
-  Campaign,
-  CampaignHistoryItem,
-  Fund,
-  FundItem,
-  ReportItem,
-  ReportData,
+  Campaign,CampaignHistoryItem,
+  Fund, DonationItem,
+  ReportItem, ReportData, ReportUpdate,
   Approval,
-  Bill, Hospital, HospitalBill,
+  Bill, Hospital, UserHospitalBill,
   TaskState, Task
 } from "../generated/schema"
 
@@ -95,22 +93,58 @@ export function handlenewApproval(event: newApproval): void {
   approvalItem.save()
 }
 
-// export function handleToggleHospitalCall(call: ToggleHospitalCall): void {
-//   let hospitalItem = Hospital.load(call.inputs._address.toHex())
-//   if(hospitalItem ==  null){
-//     hospitalItem = new Hospital(call.inputs._address.toHex())
-//     hospitalItem.state = true
-//     hospitalItem.bills = new Array<string>()
-//   }
-//   else {
-//     hospitalItem.state = !hospitalItem.state
-//   }
-// }
+export function handlehospitalUpdated(event: hospitalUpdated): void {
+  let hospitalItem = Hospital.load(event.params._hospital.toHex())
+  if(hospitalItem == null){
+    hospitalItem = new Hospital(event.params._hospital.toHex())
+    hospitalItem.state = true
+    hospitalItem.billsCount = BigInt.fromI32(0)
+    hospitalItem.totalBilledAmount = BigInt.fromI32(0)
+    hospitalItem.bills = new Array<string>()
+  }
+  else {
+    hospitalItem.state = event.params._newState
+  }
+
+  hospitalItem.save()
+}
+
+export function handlenewBill(event: newBill): void {
+  let billItem = new Bill(event.transaction.hash.toHex())
+  billItem.amount = event.params._amount
+  billItem.from = event.params._hospital
+  billItem.to = event.params._billedUser
+
+  let userHostpitalBillItem = UserHospitalBill.load(event.params._billedUser.toHex())
+  if(userHostpitalBillItem == null){
+    userHostpitalBillItem = new UserHospitalBill(event.params._billedUser.toHex())
+    userHostpitalBillItem.totalBilledAmount = BigInt.fromI32(0)
+    userHostpitalBillItem.billsCount = BigInt.fromI32(0)
+    userHostpitalBillItem.bills = new Array<string>()
+  }
+  let userBills = userHostpitalBillItem.bills
+  userBills.push(billItem.id)
+  userHostpitalBillItem.bills = userBills
+  userHostpitalBillItem.billsCount = userHostpitalBillItem.billsCount.plus(BigInt.fromI32(1))
+  userHostpitalBillItem.totalBilledAmount = userHostpitalBillItem.totalBilledAmount.plus(event.params._amount)
+
+  let hospitalItem = Hospital.load(event.params._hospital.toHex())
+  let hospitalBills = hospitalItem.bills
+  hospitalBills.push(billItem.id)
+  hospitalItem.bills = hospitalBills
+  hospitalItem.billsCount = hospitalItem.billsCount.plus(BigInt.fromI32(1))
+  hospitalItem.totalBilledAmount = hospitalItem.totalBilledAmount.plus(event.params._amount)
+
+  hospitalItem.save()
+  userHostpitalBillItem.save()
+  billItem.save()
+}
+
 
 export function handlenewCampaign(event: newCampaign): void {
 
   let campaignHistoryItem = new CampaignHistoryItem(event.transaction.hash.toHex())
-  campaignHistoryItem.campaignData = event.params._campaignData.toString()
+  campaignHistoryItem.campaignData = getIpfsHashFromBytes32(event.params._campaignData)
   campaignHistoryItem.createdOn = event.block.timestamp
   campaignHistoryItem.amountReceived = BigInt.fromI32(0)
   campaignHistoryItem.donationCount = BigInt.fromI32(0)
@@ -124,6 +158,7 @@ export function handlenewCampaign(event: newCampaign): void {
     campaign.campaignCount = BigInt.fromI32(0)
     campaign.amountReceived = BigInt.fromI32(0)
     campaign.donationCount = BigInt.fromI32(0)
+    campaign.campaignEnabled = true
     campaign.campaignHistory = new Array<string>()
   }
 
@@ -148,11 +183,16 @@ export function handlenewCampaignDonation(event: newCampaignDonation): void {
   donatorAddresses.push(event.transaction.from)
   campaignHistoryItem.donatorAddresses = donatorAddresses
 
-
   campaign.donationCount = campaign.donationCount.plus(BigInt.fromI32(1))
   campaign.amountReceived = campaign.amountReceived.plus(event.transaction.value)
 
   campaignHistoryItem.save()
+  campaign.save()
+}
+
+export function handlecampaignStopped(event:campaignStopped):void {
+  let campaign = Campaign.load(event.params._campaigner.toHexString())
+  campaign.campaignEnabled = false
   campaign.save()
 }
 
@@ -175,31 +215,33 @@ export function handlenewFund(event: newFund): void {
 
 export function handlenewFundDonation(event: newFundDonation): void {
 
-  let fundItem = new FundItem(event.transaction.hash.toHex())
-  fundItem.createdOn = event.block.timestamp
-  fundItem.from = event.transaction.from
-  fundItem.amount = event.transaction.value
+  let donationItem = new DonationItem(event.transaction.hash.toHex())
+  donationItem.createdOn = event.block.timestamp
+  donationItem.from = event.params._sender
+  donationItem.amount = event.params._amount
 
   let fund = Fund.load(event.params._fundIndex.toHexString())
-  fund.donationCount = fund.donationCount.plus(BigInt.fromI32(1))
-  fund.amountReceived = fund.amountReceived.plus(event.params._amount)
-  let donations = fund.donations
-  donations.push(fundItem.id)
-  fund.donations = donations
+  // fund.donationCount = fund.donationCount.plus(BigInt.fromI32(1))
+  // fund.amountReceived = fund.amountReceived.plus(event.params._amount)
 
-  fundItem.save()
-  fund.save()
+  // let donations = fund.donations
+  // donations.push(donationItem.id)
+  // fund.donations = donations
+
+  donationItem.save()
+  // fund.save()
 }
 
 export function handlenewReport(event: newReport): void {
 
-  let reportItem = new ReportItem(event.transaction.hash.toHex())
+  let reportItem = new ReportItem(event.params._index.toHex())
   reportItem.reportIndex = event.params._index
   reportItem.reporter = event.params._reporter
   reportItem.location = event.params._location.toString()
   reportItem.file = getIpfsHashFromBytes32(event.params._file)
   reportItem.details = event.params._details.toString()
-  reportItem.reportedOn = event.params._time;
+  reportItem.reportedOn = event.params._time
+  reportItem.updates = new Array<string>()
 
   let reportData = ReportData.load("0x1")
   if (reportData == null){
@@ -215,4 +257,18 @@ export function handlenewReport(event: newReport): void {
 
   reportItem.save()
   reportData.save()
+}
+
+
+export function handleupdateReport(event: updateReport): void {
+  let reportUpdate = new ReportUpdate(event.transaction.hash.toHex())
+  reportUpdate.update = event.params._action
+
+  let reportItem = ReportItem.load(event.params._reportIndex.toHex())
+  let updates = reportItem.updates
+  updates.push(reportUpdate.id)
+  reportItem.updates = updates
+
+  reportUpdate.save()
+  reportItem.save()
 }

@@ -17,6 +17,25 @@
     "inputs": [
       {
         "indexed": true,
+        "internalType": "address",
+        "name": "_hospital",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "_newState",
+        "type": "bool"
+      }
+    ],
+    "name": "hospitalUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
         "internalType": "uint256",
         "name": "taskID",
         "type": "uint256"
@@ -60,6 +79,31 @@
       }
     ],
     "name": "newApproval",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_hospital",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_billedUser",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "newBill",
     "type": "event"
   },
   {
@@ -246,6 +290,31 @@
       }
     ],
     "name": "newTaskCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_updater",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_reportIndex",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "_action",
+        "type": "string"
+      }
+    ],
+    "name": "updateReport",
     "type": "event"
   },
   {
@@ -507,11 +576,21 @@
       { "internalType": "bytes32", "name": "_modelHash", "type": "bytes32" },
       {
         "internalType": "address payable",
-        "name": "computer",
+        "name": "_computer",
         "type": "address"
       }
     ],
     "name": "updateModelForTask",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_reportIndex", "type": "uint256" },
+      { "internalType": "string", "name": "_action", "type": "string" }
+    ],
+    "name": "updateReportStatus",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

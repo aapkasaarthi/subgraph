@@ -31,7 +31,7 @@ type Bill @entity {
   amount: BigInt! # boolean
 }
 
-type HospitalBill @entity {
+type UserHospitalBill @entity {
   id: ID! # user address
   totalBilledAmount: BigInt!
   billsCount: BigInt!
@@ -41,6 +41,8 @@ type HospitalBill @entity {
 type Hospital @entity {
   id: ID! #hospital address
   state: Boolean
+  totalBilledAmount: BigInt!
+  billsCount: BigInt!
   bills: [Bill!]!
 }
 
@@ -83,8 +85,8 @@ type Campaign @entity {
 # Crowdfunding
 #------------------------------
 
-type FundItem @entity {
-  id: ID!
+type DonationItem @entity {
+  id: ID! # txnHash
   createdOn: BigInt!
   from: Bytes!
   amount: BigInt!
@@ -99,12 +101,17 @@ type Fund @entity {
   fundName: String!
   donationCount: BigInt! # uint256
   amountReceived: BigInt! # uint256
-  donations: [FundItem!]! # addresses
+  donations: [DonationItem!]! # addresses
 }
 
 #------------------------------
 # Reports
 #------------------------------
+
+type ReportUpdate @entity {
+  id: ID! #Txnhash
+  update: String!
+}
 
 type ReportItem @entity {
   id: ID!
@@ -114,6 +121,7 @@ type ReportItem @entity {
   file: String!
   details: String!
   reportedOn : BigInt!
+  updates: [ReportUpdate!]!
 }
 
 type ReportData @entity {

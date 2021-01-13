@@ -28,6 +28,28 @@ export class campaignStopped__Params {
   }
 }
 
+export class hospitalUpdated extends ethereum.Event {
+  get params(): hospitalUpdated__Params {
+    return new hospitalUpdated__Params(this);
+  }
+}
+
+export class hospitalUpdated__Params {
+  _event: hospitalUpdated;
+
+  constructor(event: hospitalUpdated) {
+    this._event = event;
+  }
+
+  get _hospital(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get _newState(): boolean {
+    return this._event.parameters[1].value.toBoolean();
+  }
+}
+
 export class modelUpdated extends ethereum.Event {
   get params(): modelUpdated__Params {
     return new modelUpdated__Params(this);
@@ -77,6 +99,32 @@ export class newApproval__Params {
 
   get _finalState(): boolean {
     return this._event.parameters[2].value.toBoolean();
+  }
+}
+
+export class newBill extends ethereum.Event {
+  get params(): newBill__Params {
+    return new newBill__Params(this);
+  }
+}
+
+export class newBill__Params {
+  _event: newBill;
+
+  constructor(event: newBill) {
+    this._event = event;
+  }
+
+  get _hospital(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get _billedUser(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get _amount(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
   }
 }
 
@@ -257,6 +305,32 @@ export class newTaskCreated__Params {
 
   get _time(): BigInt {
     return this._event.parameters[4].value.toBigInt();
+  }
+}
+
+export class updateReport extends ethereum.Event {
+  get params(): updateReport__Params {
+    return new updateReport__Params(this);
+  }
+}
+
+export class updateReport__Params {
+  _event: updateReport;
+
+  constructor(event: updateReport) {
+    this._event = event;
+  }
+
+  get _updater(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get _reportIndex(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get _action(): string {
+    return this._event.parameters[2].value.toString();
   }
 }
 
@@ -1089,7 +1163,7 @@ export class UpdateModelForTaskCall__Inputs {
     return this._call.inputValues[1].value.toBytes();
   }
 
-  get computer(): Address {
+  get _computer(): Address {
     return this._call.inputValues[2].value.toAddress();
   }
 }
@@ -1098,6 +1172,40 @@ export class UpdateModelForTaskCall__Outputs {
   _call: UpdateModelForTaskCall;
 
   constructor(call: UpdateModelForTaskCall) {
+    this._call = call;
+  }
+}
+
+export class UpdateReportStatusCall extends ethereum.Call {
+  get inputs(): UpdateReportStatusCall__Inputs {
+    return new UpdateReportStatusCall__Inputs(this);
+  }
+
+  get outputs(): UpdateReportStatusCall__Outputs {
+    return new UpdateReportStatusCall__Outputs(this);
+  }
+}
+
+export class UpdateReportStatusCall__Inputs {
+  _call: UpdateReportStatusCall;
+
+  constructor(call: UpdateReportStatusCall) {
+    this._call = call;
+  }
+
+  get _reportIndex(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get _action(): string {
+    return this._call.inputValues[1].value.toString();
+  }
+}
+
+export class UpdateReportStatusCall__Outputs {
+  _call: UpdateReportStatusCall;
+
+  constructor(call: UpdateReportStatusCall) {
     this._call = call;
   }
 }
