@@ -6,8 +6,8 @@ dataSources:
     name: Saarthi
     network: rinkeby
     source:
-      address: "0x7a237ae58FD277B909a125C108cF2bDB3821c9e2"
-      startBlock: 7879723
+      address: "0x72624c794c508f8d2f3bf65d6b363118d9d6e39e"
+      startBlock: 7881791
       abi: Saarthi
     mapping:
       kind: ethereum/events

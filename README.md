@@ -6,7 +6,7 @@
 ### Endpoints
 ```
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/anudit/saarthi
-IPFS:               https://api.thegraph.com/subgraphs/id/QmW3q6XtPqHo3x1kDYainz8hHw36hyphgkqoxvVYeSrL2z
+IPFS:               https://api.thegraph.com/subgraphs/id/QmcZyHK9uiuqqRPe2m2f2r1wi6ycDAqXCm9LCmnefUjnFy
 Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/anudit/saarthi
 ```
 
@@ -92,7 +92,13 @@ Get Funds Data.
 
 ```
 {
-  funds(first:1) {
+  donationItems{
+    id
+      createdOn
+      from
+      amount
+  }
+  funds {
     id
     paymentReceiver
     fundIndex
@@ -116,24 +122,66 @@ Get Funds Data.
  <pre>
 {
   "data": {
+    "donationItems": [
+      {
+        "amount": "5000000000000000",
+        "createdOn": "1610454637",
+        "from": "0xbeb71662ff9c08afef3866f85a6591d4aebe6e4e",
+        "id": "0x7b39d2e2cf0f59cf49fa26a6e0de7a0aa0ee287052587e2272a66623edb41b9e"
+      },
+      {
+        "amount": "5000000000000000",
+        "createdOn": "1610454637",
+        "from": "0xd90c844c0252797c2e3f87aa63a8389a16a63767",
+        "id": "0xed7073837bca4ca8fbdfc52fa9c80310a762cefcbec6de20373df0c187a43366"
+      }
+    ],
     "funds": [
       {
-        "amountReceived": "500000000000000000",
-        "createdOn": "1610208416",
-        "donationCount": "1",
+        "amountReceived": "10000000000000000",
+        "createdOn": "1610454607",
+        "donationCount": "2",
         "donations": [
           {
-            "amount": "500000000000000000",
-            "createdOn": "1610208656",
-            "from": "0x707ac3937a9b31c225d8c240f5917be97cab9f20",
-            "id": "0xf3bc924274d0397d905086b87507a566b46d51ca2aa46198613ae842d66e2c8d"
+            "amount": "5000000000000000",
+            "createdOn": "1610454637",
+            "from": "0xbeb71662ff9c08afef3866f85a6591d4aebe6e4e",
+            "id": "0x7b39d2e2cf0f59cf49fa26a6e0de7a0aa0ee287052587e2272a66623edb41b9e"
+          },
+          {
+            "amount": "5000000000000000",
+            "createdOn": "1610454637",
+            "from": "0xd90c844c0252797c2e3f87aa63a8389a16a63767",
+            "id": "0xed7073837bca4ca8fbdfc52fa9c80310a762cefcbec6de20373df0c187a43366"
           }
         ],
+        "fundIndex": "1",
+        "fundName": "COVID-19 Solidarity Fund",
+        "id": "0x1",
+        "orgName": "WHO",
+        "paymentReceiver": "0x707ac3937a9b31c225d8c240f5917be97cab9f20"
+      },
+      {
+        "amountReceived": "0",
+        "createdOn": "1610454607",
+        "donationCount": "0",
+        "donations": [],
         "fundIndex": "2",
         "fundName": "Coronavirus Relief Fund",
         "id": "0x2",
         "orgName": "GlobalGiving",
-        "paymentReceiver": "0xbeb71662ff9c08afef3866f85a6591d4aebe6e4e"
+        "paymentReceiver": "0x707ac3937a9b31c225d8c240f5917be97cab9f20"
+      },
+      {
+        "amountReceived": "0",
+        "createdOn": "1610454637",
+        "donationCount": "0",
+        "donations": [],
+        "fundIndex": "3",
+        "fundName": "Crypto Against COVID",
+        "id": "0x3",
+        "orgName": "Binance Charity",
+        "paymentReceiver": "0x707ac3937a9b31c225d8c240f5917be97cab9f20"
       }
     ]
   }

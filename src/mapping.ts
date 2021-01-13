@@ -199,8 +199,7 @@ export function handlecampaignStopped(event:campaignStopped):void {
 export function handlenewFund(event: newFund): void {
 
   let fund = new Fund(event.params._fundIndex.toHexString())
-  let contract = Saarthi.bind(event.address)
-  fund.paymentReceiver = contract.Funds(event.params._fundIndex)
+  fund.paymentReceiver = event.params._paymentReceiver
   fund.fundIndex = event.params._fundIndex
   fund.createdOn = event.block.timestamp
   fund.orgName = event.params._orgName.toString()
@@ -221,15 +220,15 @@ export function handlenewFundDonation(event: newFundDonation): void {
   donationItem.amount = event.params._amount
 
   let fund = Fund.load(event.params._fundIndex.toHexString())
-  // fund.donationCount = fund.donationCount.plus(BigInt.fromI32(1))
-  // fund.amountReceived = fund.amountReceived.plus(event.params._amount)
+  fund.donationCount = fund.donationCount.plus(BigInt.fromI32(1))
+  fund.amountReceived = fund.amountReceived.plus(event.params._amount)
 
-  // let donations = fund.donations
-  // donations.push(donationItem.id)
-  // fund.donations = donations
+  let donations = fund.donations
+  donations.push(donationItem.id)
+  fund.donations = donations
 
   donationItem.save()
-  // fund.save()
+  fund.save()
 }
 
 export function handlenewReport(event: newReport): void {
